@@ -211,16 +211,16 @@ export default function Home() {
       {/* 4. Interactive Sandbox Section */}
       <ScrollReveal>
         <section id="demo" style={sandboxSectionStyle}>
-          <div style={sandboxHeaderWrapStyle}>
+          <div className="sandbox-header-wrap" style={sandboxHeaderWrapStyle}>
             <div style={sandboxHeaderTextStyle}>
               <div style={sandboxBadgeStyle}>Live Web Demo</div>
-              <h2 style={sandboxTitleStyle}>Explore the LoopHabit Sandbox</h2>
+              <h2 className="sandbox-title" style={sandboxTitleStyle}>Explore the LoopHabit Sandbox</h2>
               <p style={sandboxSubtitleStyle}>
                 Interact with a live demo of the Android layout. Try creating new habits, swiping card stacks, running Pomodoro focus blocks, and analyzing mock charts.
               </p>
             </div>
 
-            <div style={sandboxActionBtnsStyle}>
+            <div className="sandbox-action-btns" style={sandboxActionBtnsStyle}>
               <button 
                 onClick={() => setShowAddModal(true)} 
                 className="btn-primary" 
@@ -320,8 +320,8 @@ export default function Home() {
       <ScrollReveal>
         <section style={downloadBannerSectionStyle}>
           <div className="glass-card" style={downloadBannerCardStyle}>
-            <h3 style={bannerTitleStyle}>Build Better Habits Today</h3>
-            <p style={bannerDescStyle}>
+            <h3 className="banner-title" style={bannerTitleStyle}>Build Better Habits Today</h3>
+            <p className="banner-desc" style={bannerDescStyle}>
               Download the official Android client to set home screen widgets, receive reminder notifications, and sync your statistics automatically via your own Supabase database.
             </p>
             <a 

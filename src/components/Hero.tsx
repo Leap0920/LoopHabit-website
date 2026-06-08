@@ -28,10 +28,10 @@ export default function Hero({ onScrollToDemo }: HeroProps) {
 
   return (
     <section id="hero" style={heroSectionStyle}>
-      <div style={heroContentStyle}>
-        <div style={leftColStyle}>
+      <div className="hero-content" style={heroContentStyle}>
+        <div className="hero-left-col" style={leftColStyle}>
           <div style={versionBadgeStyle}>🚀 v1.0.0 Release Active</div>
-          <h1 style={titleStyle}>
+          <h1 className="hero-title" style={titleStyle}>
             Master Your Habits <br />
             <span className="gradient-text">One Loop At A Time</span>
           </h1>
@@ -39,7 +39,7 @@ export default function Hero({ onScrollToDemo }: HeroProps) {
             LoopHabit is a modern habit tracker built for Android. Group your goals into loops, track numerical progress, log sessions with focus timers, and visualize your streaks with beautiful performance charts.
           </p>
 
-          <div style={ctaContainerStyle}>
+          <div className="hero-cta-container" style={ctaContainerStyle}>
             <a 
               href="/LoopHabit-debug.apk" 
               download="LoopHabit-debug.apk"
@@ -64,7 +64,7 @@ export default function Hero({ onScrollToDemo }: HeroProps) {
             </button>
           </div>
 
-          <div style={badgeRowStyle}>
+          <div className="hero-badge-row" style={badgeRowStyle}>
             <div style={badgeItemStyle}>✓ Ad-Free</div>
             <div style={badgeItemStyle}>✓ Local First</div>
             <div style={badgeItemStyle}>✓ Cloud Sync</div>

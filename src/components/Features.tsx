@@ -40,8 +40,8 @@ export default function Features() {
   return (
     <section id="features" style={sectionStyle}>
       <div style={headerStyle}>
-        <h2 style={titleStyle}>Engineered For Habit Formation</h2>
-        <p style={subtitleStyle}>LoopHabit combines simple gestures with powerful analytics to keep you consistent.</p>
+        <h2 className="features-title" style={titleStyle}>Engineered For Habit Formation</h2>
+        <p className="features-subtitle" style={subtitleStyle}>LoopHabit combines simple gestures with powerful analytics to keep you consistent.</p>
       </div>
 
       <div className="grid-container">

@@ -350,3 +350,71 @@ input:checked + .slider:before {
   transform: translateX(24px);
   background-color: white;
 }
+
+/* Media Queries for Mobile Responsiveness */
+@media (max-width: 968px) {
+  .hero-content {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+    text-align: center !important;
+  }
+
+  .hero-left-col {
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .hero-cta-container {
+    justify-content: center !important;
+  }
+
+  .hero-badge-row {
+    justify-content: center !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-nav {
+    display: none !important;
+  }
+
+  .hero-title {
+    font-size: 36px !important;
+  }
+
+  .features-title {
+    font-size: 28px !important;
+  }
+
+  .sandbox-header-wrap {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  .sandbox-action-btns {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .sandbox-title {
+    font-size: 24px !important;
+  }
+
+  .sandbox-tabs {
+    flex-wrap: wrap !important;
+  }
+
+  .sandbox-tab {
+    font-size: 13px !important;
+    padding: 10px 6px !important;
+  }
+
+  .banner-title {
+    font-size: 24px !important;
+  }
+  
+  .glass-card {
+    padding: 16px !important;
+  }
+}

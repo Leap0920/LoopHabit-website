@@ -25,7 +25,7 @@ export default function Header({ darkMode, onToggleDarkMode, onScrollTo }: Heade
         <span style={logoTextStyle}>LoopHabit</span>
       </div>
 
-      <nav style={navStyle}>
+      <nav className="header-nav" style={navStyle}>
         <button onClick={() => onScrollTo('hero')} style={navLinkStyle}>Home</button>
         <button onClick={() => onScrollTo('features')} style={navLinkStyle}>Features</button>
         <button onClick={() => onScrollTo('demo')} style={navLinkStyle}>Try Demo</button>
