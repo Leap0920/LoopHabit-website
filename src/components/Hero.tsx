@@ -28,10 +28,6 @@ export default function Hero({ onScrollToDemo }: HeroProps) {
 
   return (
     <section id="hero" style={heroSectionStyle}>
-      {/* Background Decorative Glows */}
-      <div className="glow-bg" style={{ ...glow1Style, background: 'var(--primary)' }} />
-      <div className="glow-bg" style={{ ...glow2Style, background: 'var(--tertiary)' }} />
-
       <div style={heroContentStyle}>
         <div style={leftColStyle}>
           <div style={versionBadgeStyle}>🚀 v1.0.0 Release Active</div>
@@ -195,9 +191,9 @@ function activeCardGoal(count: number) {
 }
 
 function activeCardColor(count: number) {
-  if (count === 1) return 'linear-gradient(135deg, #118AB2, #0077B6)';
-  if (count === 2) return 'linear-gradient(135deg, #06D6A0, #00B4D8)';
-  return 'linear-gradient(135deg, #8338EC, #B5179E)';
+  if (count === 1) return '#118AB2';
+  if (count === 2) return '#06D6A0';
+  return '#8338EC';
 }
 
 // Layout Styles
@@ -435,14 +431,14 @@ const phoneCardStyle: React.CSSProperties = {
 
 const backCard1Style: React.CSSProperties = {
   transform: 'scale(0.9) translateY(24px)',
-  background: 'linear-gradient(135deg, #8338EC, #B5179E)',
+  background: '#8338EC',
   opacity: 0.4,
   zIndex: 1,
 };
 
 const middleCardStyle: React.CSSProperties = {
   transform: 'scale(0.95) translateY(12px)',
-  background: 'linear-gradient(135deg, #06D6A0, #00B4D8)',
+  background: '#06D6A0',
   opacity: 0.7,
   zIndex: 2,
 };

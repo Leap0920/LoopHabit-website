@@ -9,6 +9,7 @@ import FocusTimer from '../components/FocusTimer';
 import InsightsDashboard from '../components/InsightsDashboard';
 import AddHabitModal from '../components/AddHabitModal';
 import SettingsModal from '../components/SettingsModal';
+import ScrollReveal from '../components/ScrollReveal';
 import { Layers, Timer, BarChart3, Settings, Plus, Download } from 'lucide-react';
 
 import {
@@ -198,139 +199,146 @@ export default function Home() {
       />
 
       {/* 2. Hero */}
-      <Hero onScrollToDemo={() => handleScrollToSection('demo')} />
+      <ScrollReveal>
+        <Hero onScrollToDemo={() => handleScrollToSection('demo')} />
+      </ScrollReveal>
 
       {/* 3. Features Grid */}
-      <Features />
+      <ScrollReveal>
+        <Features />
+      </ScrollReveal>
 
       {/* 4. Interactive Sandbox Section */}
-      <section id="demo" style={sandboxSectionStyle}>
-        <div style={sandboxHeaderWrapStyle}>
-          <div style={sandboxHeaderTextStyle}>
-            <div style={sandboxBadgeStyle}>Live Web Demo</div>
-            <h2 style={sandboxTitleStyle}>Explore the LoopHabit Sandbox</h2>
-            <p style={sandboxSubtitleStyle}>
-              Interact with a live demo of the Android layout. Try creating new habits, swiping card stacks, running Pomodoro focus blocks, and analyzing mock charts.
-            </p>
+      <ScrollReveal>
+        <section id="demo" style={sandboxSectionStyle}>
+          <div style={sandboxHeaderWrapStyle}>
+            <div style={sandboxHeaderTextStyle}>
+              <div style={sandboxBadgeStyle}>Live Web Demo</div>
+              <h2 style={sandboxTitleStyle}>Explore the LoopHabit Sandbox</h2>
+              <p style={sandboxSubtitleStyle}>
+                Interact with a live demo of the Android layout. Try creating new habits, swiping card stacks, running Pomodoro focus blocks, and analyzing mock charts.
+              </p>
+            </div>
+
+            <div style={sandboxActionBtnsStyle}>
+              <button 
+                onClick={() => setShowAddModal(true)} 
+                className="btn-primary" 
+                style={{ ...sandboxActionBtnStyle, background: 'var(--success)', boxShadow: '0 4px 12px rgba(6, 214, 160, 0.2)' }}
+              >
+                <Plus size={16} />
+                <span>Add Custom Habit</span>
+              </button>
+              <button 
+                onClick={() => setShowSettingsModal(true)} 
+                className="btn-secondary" 
+                style={sandboxActionBtnStyle}
+              >
+                <Settings size={16} />
+                <span>Manage Settings</span>
+              </button>
+            </div>
           </div>
 
-          <div style={sandboxActionBtnsStyle}>
-            <button 
-              onClick={() => setShowAddModal(true)} 
-              className="btn-primary" 
-              style={{ ...sandboxActionBtnStyle, background: 'var(--success)', boxShadow: '0 4px 12px rgba(6, 214, 160, 0.2)' }}
-            >
-              <Plus size={16} />
-              <span>Add Custom Habit</span>
-            </button>
-            <button 
-              onClick={() => setShowSettingsModal(true)} 
-              className="btn-secondary" 
-              style={sandboxActionBtnStyle}
-            >
-              <Settings size={16} />
-              <span>Manage Settings</span>
-            </button>
-          </div>
-        </div>
+          {/* The Sandbox Body container */}
+          <div className="glass" style={sandboxBodyStyle}>
+            {/* Inner Navigation Tabs representing composition navigation */}
+            <div style={innerNavTabsStyle}>
+              <button
+                onClick={() => setSandboxTab('TODAY')}
+                style={{
+                  ...innerNavTabStyle,
+                  color: sandboxTab === 'TODAY' ? 'var(--primary)' : 'var(--text-muted)',
+                  borderBottom: sandboxTab === 'TODAY' ? '3px solid var(--primary)' : '3px solid transparent'
+                }}
+              >
+                <span style={tabLabelInnerStyle}>
+                  <Layers size={16} />
+                  <span>Today</span>
+                </span>
+              </button>
+              <button
+                onClick={() => setSandboxTab('FOCUS')}
+                style={{
+                  ...innerNavTabStyle,
+                  color: sandboxTab === 'FOCUS' ? 'var(--primary)' : 'var(--text-muted)',
+                  borderBottom: sandboxTab === 'FOCUS' ? '3px solid var(--primary)' : '3px solid transparent'
+                }}
+              >
+                <span style={tabLabelInnerStyle}>
+                  <Timer size={16} />
+                  <span>Focus Timer</span>
+                </span>
+              </button>
+              <button
+                onClick={() => setSandboxTab('INSIGHTS')}
+                style={{
+                  ...innerNavTabStyle,
+                  color: sandboxTab === 'INSIGHTS' ? 'var(--primary)' : 'var(--text-muted)',
+                  borderBottom: sandboxTab === 'INSIGHTS' ? '3px solid var(--primary)' : '3px solid transparent'
+                }}
+              >
+                <span style={tabLabelInnerStyle}>
+                  <BarChart3 size={16} />
+                  <span>Performance Insights</span>
+                </span>
+              </button>
+            </div>
 
-        {/* The Sandbox Body container */}
-        <div className="glass" style={sandboxBodyStyle}>
-          {/* Inner Navigation Tabs representing composition navigation */}
-          <div style={innerNavTabsStyle}>
-            <button
-              onClick={() => setSandboxTab('TODAY')}
-              style={{
-                ...innerNavTabStyle,
-                color: sandboxTab === 'TODAY' ? 'var(--primary)' : 'var(--text-muted)',
-                borderBottom: sandboxTab === 'TODAY' ? '3px solid var(--primary)' : '3px solid transparent'
-              }}
-            >
-              <span style={tabLabelInnerStyle}>
-                <Layers size={16} />
-                <span>Today</span>
-              </span>
-            </button>
-            <button
-              onClick={() => setSandboxTab('FOCUS')}
-              style={{
-                ...innerNavTabStyle,
-                color: sandboxTab === 'FOCUS' ? 'var(--primary)' : 'var(--text-muted)',
-                borderBottom: sandboxTab === 'FOCUS' ? '3px solid var(--primary)' : '3px solid transparent'
-              }}
-            >
-              <span style={tabLabelInnerStyle}>
-                <Timer size={16} />
-                <span>Focus Timer</span>
-              </span>
-            </button>
-            <button
-              onClick={() => setSandboxTab('INSIGHTS')}
-              style={{
-                ...innerNavTabStyle,
-                color: sandboxTab === 'INSIGHTS' ? 'var(--primary)' : 'var(--text-muted)',
-                borderBottom: sandboxTab === 'INSIGHTS' ? '3px solid var(--primary)' : '3px solid transparent'
-              }}
-            >
-              <span style={tabLabelInnerStyle}>
-                <BarChart3 size={16} />
-                <span>Performance Insights</span>
-              </span>
-            </button>
+            {/* Render Active Sandbox View */}
+            <div style={tabContentStyle}>
+              {sandboxTab === 'TODAY' && (
+                <HabitCardStack 
+                  habits={habits}
+                  completions={completions}
+                  onCompleteHabit={handleCompleteHabit}
+                  onUncompleteHabit={handleUncompleteHabit}
+                />
+              )}
+              
+              {sandboxTab === 'FOCUS' && (
+                <FocusTimer 
+                  habits={habits}
+                  onLogFocusSession={handleLogFocusSession}
+                  onCompleteHabit={handleCompleteHabit}
+                />
+              )}
+              
+              {sandboxTab === 'INSIGHTS' && (
+                <InsightsDashboard 
+                  habits={habits}
+                  completions={completions}
+                  focusSessions={focusSessions}
+                />
+              )}
+            </div>
           </div>
-
-          {/* Render Active Sandbox View */}
-          <div style={tabContentStyle}>
-            {sandboxTab === 'TODAY' && (
-              <HabitCardStack 
-                habits={habits}
-                completions={completions}
-                onCompleteHabit={handleCompleteHabit}
-                onUncompleteHabit={handleUncompleteHabit}
-              />
-            )}
-            
-            {sandboxTab === 'FOCUS' && (
-              <FocusTimer 
-                habits={habits}
-                onLogFocusSession={handleLogFocusSession}
-                onCompleteHabit={handleCompleteHabit}
-              />
-            )}
-            
-            {sandboxTab === 'INSIGHTS' && (
-              <InsightsDashboard 
-                habits={habits}
-                completions={completions}
-                focusSessions={focusSessions}
-              />
-            )}
-          </div>
-        </div>
-      </section>
+        </section>
+      </ScrollReveal>
 
       {/* 5. Bottom Download CTA Banner */}
-      <section style={downloadBannerSectionStyle}>
-        <div className="glass-card" style={downloadBannerCardStyle}>
-          <div className="glow-bg" style={{ ...bannerGlowStyle, background: 'var(--accent-gradient)' }} />
-          <h3 style={bannerTitleStyle}>Build Better Habits Today</h3>
-          <p style={bannerDescStyle}>
-            Download the official Android client to set home screen widgets, receive reminder notifications, and sync your statistics automatically via your own Supabase database.
-          </p>
-          <a 
-            href="/LoopHabit-debug.apk" 
-            download="LoopHabit-debug.apk"
-            className="btn-primary" 
-            style={bannerCtaBtnStyle}
-          >
-            <Download size={22} />
-            <div style={bannerBtnTextContainerStyle}>
-              <span style={bannerBtnLabelStyle}>Download LoopHabit Debug APK</span>
-              <span style={bannerBtnSubLabelStyle}>Requires Android 8.0+ | File Size: 26.8 MB</span>
-            </div>
-          </a>
-        </div>
-      </section>
+      <ScrollReveal>
+        <section style={downloadBannerSectionStyle}>
+          <div className="glass-card" style={downloadBannerCardStyle}>
+            <h3 style={bannerTitleStyle}>Build Better Habits Today</h3>
+            <p style={bannerDescStyle}>
+              Download the official Android client to set home screen widgets, receive reminder notifications, and sync your statistics automatically via your own Supabase database.
+            </p>
+            <a 
+              href="/LoopHabit-debug.apk" 
+              download="LoopHabit-debug.apk"
+              className="btn-primary" 
+              style={bannerCtaBtnStyle}
+            >
+              <Download size={22} />
+              <div style={bannerBtnTextContainerStyle}>
+                <span style={bannerBtnLabelStyle}>Download LoopHabit Debug APK</span>
+                <span style={bannerBtnSubLabelStyle}>Requires Android 8.0+ | File Size: 26.8 MB</span>
+              </div>
+            </a>
+          </div>
+        </section>
+      </ScrollReveal>
 
       {/* 6. Footer */}
       <footer style={footerStyle}>
