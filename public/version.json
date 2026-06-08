@@ -1,0 +1,5 @@
+{
+  "versionName": "1.0.1",
+  "downloadUrl": "https://loop-habit-website.vercel.app/LoopHabit-debug.apk",
+  "releaseNotes": "UI and feature improvements:\n- Added custom countdown timer durations.\n- Replaced raw emojis with clean Lucide-style outlined icons.\n- Configured direct in-app updates check."
+}
