@@ -49,7 +49,7 @@ export default function Header({ darkMode, onToggleDarkMode, onScrollTo }: Heade
         >
           <Download size={16} />
           <span>Download APK</span>
-          <span style={badgeStyle}>v1.0</span>
+          <span style={badgeStyle}>v1.0.1</span>
         </a>
       </div>
     </header>
