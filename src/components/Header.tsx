@@ -47,7 +47,10 @@ export default function Header({ darkMode, onToggleDarkMode, onScrollTo }: Heade
           className="btn-primary download-btn"
         >
           <Download size={16} />
-          <span className="download-btn-text">Download APK</span>
+          <span className="download-btn-text">
+            <span>Download</span>
+            <span>APK</span>
+          </span>
           <span className="download-badge">v1.1</span>
         </a>
       </div>
