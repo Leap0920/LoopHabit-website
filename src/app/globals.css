@@ -418,3 +418,99 @@ input:checked + .slider:before {
     padding: 16px !important;
   }
 }
+
+/* Header Container and Components styling */
+.header-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 1000;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-radius: 0 0 20px 20px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-image {
+  height: 36px;
+  width: auto;
+  border-radius: 10px;
+  object-fit: contain;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.logo-text {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.actions-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.download-btn {
+  padding: 8px 18px;
+  font-size: 13px;
+  height: 40px;
+  border-radius: 12px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.download-badge {
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 4px;
+}
+
+/* Header Responsiveness */
+@media (max-width: 480px) {
+  .header-container {
+    padding: 0 16px !important;
+  }
+  
+  .logo-text {
+    display: none !important; /* Hide Logo text on small screen */
+  }
+
+  .logo-container {
+    gap: 0 !important;
+  }
+
+  .actions-container {
+    gap: 8px !important;
+  }
+
+  .download-btn {
+    padding: 8px 12px !important;
+  }
+
+  .download-btn-text {
+    display: none !important; /* Hide "Download APK" text on mobile */
+  }
+  
+  .download-badge {
+    margin-left: 0 !important;
+  }
+}
+

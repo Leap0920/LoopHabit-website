@@ -11,27 +11,27 @@ interface HeaderProps {
 
 export default function Header({ darkMode, onToggleDarkMode, onScrollTo }: HeaderProps) {
   return (
-    <header className="glass" style={headerStyle}>
-      <div style={logoContainerStyle}>
+    <header className="glass header-container">
+      <div className="logo-container">
         <img 
           src={darkMode ? "/logo2.png" : "/logo1.png"} 
           alt="LoopHabit Logo" 
-          style={logoImageStyle}
+          className="logo-image"
           onError={(e) => {
             // Fallback if logo loading fails
             (e.target as HTMLImageElement).src = "/logo1.png";
           }}
         />
-        <span style={logoTextStyle}>LoopHabit</span>
+        <span className="logo-text">LoopHabit</span>
       </div>
 
-      <nav className="header-nav" style={navStyle}>
-        <button onClick={() => onScrollTo('hero')} style={navLinkStyle}>Home</button>
-        <button onClick={() => onScrollTo('features')} style={navLinkStyle}>Features</button>
-        <button onClick={() => onScrollTo('demo')} style={navLinkStyle}>Try Demo</button>
+      <nav className="header-nav">
+        <button onClick={() => onScrollTo('hero')} className="nav-link">Home</button>
+        <button onClick={() => onScrollTo('features')} className="nav-link">Features</button>
+        <button onClick={() => onScrollTo('demo')} className="nav-link">Try Demo</button>
       </nav>
 
-      <div style={actionsStyle}>
+      <div className="actions-container">
         <button 
           onClick={onToggleDarkMode} 
           className="icon-btn" 
@@ -44,89 +44,17 @@ export default function Header({ darkMode, onToggleDarkMode, onScrollTo }: Heade
         <a 
           href="/LoopHabit-debug.apk" 
           download="LoopHabit-debug.apk"
-          className="btn-primary" 
-          style={downloadBtnStyle}
+          className="btn-primary download-btn"
         >
           <Download size={16} />
-          <span>Download APK</span>
-          <span style={badgeStyle}>v1.1</span>
+          <span className="download-btn-text">Download APK</span>
+          <span className="download-badge">v1.1</span>
         </a>
       </div>
     </header>
   );
 }
 
-const headerStyle: React.CSSProperties = {
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  right: 0,
-  height: '70px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  padding: '0 24px',
-  zIndex: 1000,
-  borderTop: 'none',
-  borderLeft: 'none',
-  borderRight: 'none',
-  borderRadius: '0 0 20px 20px',
-};
 
-const logoContainerStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  gap: '10px',
-};
 
-const logoImageStyle: React.CSSProperties = {
-  height: '36px',
-  width: 'auto',
-  borderRadius: '10px',
-  objectFit: 'contain',
-  boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-};
 
-const logoTextStyle: React.CSSProperties = {
-  fontSize: '20px',
-  fontWeight: 800,
-  letterSpacing: '-0.5px',
-};
-
-const navStyle: React.CSSProperties = {
-  display: 'flex',
-  gap: '12px',
-};
-
-const navLinkStyle: React.CSSProperties = {
-  background: 'none',
-  border: 'none',
-  color: 'var(--text-muted)',
-  fontSize: '14px',
-  fontWeight: 700,
-  cursor: 'pointer',
-  padding: '8px 16px',
-  borderRadius: '10px',
-  transition: 'all 0.2s',
-};
-
-const actionsStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-};
-
-const downloadBtnStyle: React.CSSProperties = {
-  padding: '8px 18px',
-  fontSize: '13px',
-  height: '40px',
-  borderRadius: '12px',
-};
-
-const badgeStyle: React.CSSProperties = {
-  fontSize: '10px',
-  background: 'rgba(255, 255, 255, 0.2)',
-  padding: '2px 6px',
-  borderRadius: '4px',
-  marginLeft: '4px',
-};
