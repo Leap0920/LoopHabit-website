@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
 import Features from '../components/Features';
+import Changelog from '../components/Changelog';
 import HabitCardStack from '../components/HabitCardStack';
 import FocusTimer from '../components/FocusTimer';
 import InsightsDashboard from '../components/InsightsDashboard';
@@ -208,7 +209,12 @@ export default function Home() {
         <Features />
       </ScrollReveal>
 
-      {/* 4. Interactive Sandbox Section */}
+      {/* 4. Changelog Section */}
+      <ScrollReveal>
+        <Changelog />
+      </ScrollReveal>
+
+      {/* 5. Interactive Sandbox Section */}
       <ScrollReveal>
         <section id="demo" style={sandboxSectionStyle}>
           <div className="sandbox-header-wrap" style={sandboxHeaderWrapStyle}>
@@ -333,7 +339,7 @@ export default function Home() {
               <Download size={22} />
               <div style={bannerBtnTextContainerStyle}>
                 <span style={bannerBtnLabelStyle}>Download LoopHabit Debug APK</span>
-                <span style={bannerBtnSubLabelStyle}>Requires Android 8.0+ | File Size: 26.8 MB</span>
+                <span style={bannerBtnSubLabelStyle}>Requires Android 8.0+ | File Size: 26.9 MB</span>
               </div>
             </a>
           </div>

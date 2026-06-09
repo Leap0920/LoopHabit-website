@@ -49,7 +49,7 @@ export default function Hero({ onScrollToDemo }: HeroProps) {
               <Download size={22} />
               <div style={btnTextContainerStyle}>
                 <span style={btnLabelStyle}>Download APK</span>
-                <span style={btnSubLabelStyle}>Direct Android Download (26.8 MB)</span>
+                <span style={btnSubLabelStyle}>Direct Android Download (26.9 MB)</span>
               </div>
             </a>
 

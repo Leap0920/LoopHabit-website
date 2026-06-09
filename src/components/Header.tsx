@@ -28,6 +28,7 @@ export default function Header({ darkMode, onToggleDarkMode, onScrollTo }: Heade
       <nav className="header-nav">
         <button onClick={() => onScrollTo('hero')} className="nav-link">Home</button>
         <button onClick={() => onScrollTo('features')} className="nav-link">Features</button>
+        <button onClick={() => onScrollTo('changelog')} className="nav-link">Changelog</button>
         <button onClick={() => onScrollTo('demo')} className="nav-link">Try Demo</button>
       </nav>
 
