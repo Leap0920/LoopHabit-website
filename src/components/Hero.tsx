@@ -30,7 +30,7 @@ export default function Hero({ onScrollToDemo }: HeroProps) {
     <section id="hero" style={heroSectionStyle}>
       <div className="hero-content" style={heroContentStyle}>
         <div className="hero-left-col" style={leftColStyle}>
-          <div style={versionBadgeStyle}>🚀 v1.1 Release Active</div>
+          <div style={versionBadgeStyle}>🚀 v1.2 Release Active</div>
           <h1 className="hero-title" style={titleStyle}>
             Master Your Habits <br />
             <span className="gradient-text">One Loop At A Time</span>

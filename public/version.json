@@ -1,5 +1,5 @@
 {
-  "versionName": "1.1",
+  "versionName": "1.2",
   "downloadUrl": "https://loop-habit-website.vercel.app/LoopHabit-debug.apk",
-  "releaseNotes": "UI and feature improvements:\n- Added custom countdown timer durations.\n- Replaced raw emojis with clean Lucide-style outlined icons.\n- Configured direct in-app updates check."
+  "releaseNotes": "Bug Fixes:\n- Fixed stopwatch and timer not updating/recording sessions when the phone screen is turned off."
 }

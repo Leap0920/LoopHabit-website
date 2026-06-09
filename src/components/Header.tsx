@@ -51,7 +51,7 @@ export default function Header({ darkMode, onToggleDarkMode, onScrollTo }: Heade
             <span>Download</span>
             <span>APK</span>
           </span>
-          <span className="download-badge">v1.1</span>
+          <span className="download-badge">v1.2</span>
         </a>
       </div>
     </header>
