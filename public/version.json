@@ -1,5 +1,5 @@
 {
-  "versionName": "1.2",
+  "versionName": "1.3",
   "downloadUrl": "https://loop-habit-website.vercel.app/LoopHabit-debug.apk",
-  "releaseNotes": "Bug Fixes:\n- Fixed stopwatch and timer not updating/recording sessions when the phone screen is turned off."
+  "releaseNotes": "Bug Fixes:\n- Fixed stopwatch and timer not updating/recording sessions when the phone screen is turned off.\n- Fixed import/export backup functionality.\n- Fixed auto-backup scheduling.\n- Modern TodoScreen UI with gradient header and stat chips.\n- Performance improvements with LazyColumn for smooth scrolling."
 }
