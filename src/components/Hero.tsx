@@ -30,7 +30,7 @@ export default function Hero({ onScrollToDemo }: HeroProps) {
     <section id="hero" style={heroSectionStyle}>
       <div className="hero-content" style={heroContentStyle}>
         <div className="hero-left-col" style={leftColStyle}>
-          <div style={versionBadgeStyle}>🚀 v1.2 Release Active</div>
+          <div style={versionBadgeStyle}>🚀 v1.3 Release Active</div>
           <h1 className="hero-title" style={titleStyle}>
             Master Your Habits <br />
             <span className="gradient-text">One Loop At A Time</span>
@@ -90,7 +90,7 @@ export default function Hero({ onScrollToDemo }: HeroProps) {
               {/* Phone App Progress Widget */}
               <div style={phoneProgressCardStyle}>
                 <div style={{ flex: 1 }}>
-                  <div style={phoneProgressTitleStyle}>Today's Loop</div>
+                  <div style={phoneProgressTitleStyle}>Today&apos;s Loop</div>
                   <div style={phoneProgressSubStyle}>{completedCount} of 3 completed</div>
                 </div>
                 <div style={progressCircleContainerStyle}>

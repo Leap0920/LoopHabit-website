@@ -17,9 +17,31 @@ interface VersionEntry {
 
 const changelog: VersionEntry[] = [
   {
+    version: '1.3',
+    date: 'June 10, 2026',
+    label: 'Latest',
+    changes: [
+      {
+        type: 'improvement',
+        text: 'Completely redesigned Todo list UI with modern header card, gradient stats, circular checkboxes, and smooth edit/delete dialogs.',
+      },
+      {
+        type: 'improvement',
+        text: 'Major performance overhaul — replaced coroutine-per-pixel swipe handling with synchronous drag tracking, converted Today tab to LazyColumn for off-screen recycling, and added stable keys to completed habits list.',
+      },
+      {
+        type: 'improvement',
+        text: 'Polished completed habit row with consistent 34dp icon buttons, error-tinted undo button, and tighter spacing.',
+      },
+      {
+        type: 'fix',
+        text: 'Fixed bottom navigation icon sizing — all 4 icons now use consistent 24dp sizing with proper alignment.',
+      },
+    ],
+  },
+  {
     version: '1.2',
     date: 'June 9, 2026',
-    label: 'Latest',
     changes: [
       {
         type: 'fix',
@@ -114,7 +136,7 @@ const typeConfig = {
 };
 
 export default function Changelog() {
-  const [expandedVersions, setExpandedVersions] = useState<Set<string>>(new Set(['1.2']));
+  const [expandedVersions, setExpandedVersions] = useState<Set<string>>(new Set(['1.3']));
 
   const toggleVersion = (version: string) => {
     setExpandedVersions((prev) => {
