@@ -1,15 +1,13 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   ChevronLeft, 
   ChevronRight, 
   Check, 
   RotateCcw, 
   Sparkles, 
-  Flame, 
-  CheckCircle2, 
-  TrendingUp 
+  Flame
 } from 'lucide-react';
 import { Habit, HabitCompletion, formatDateString } from '../utils/db';
 
@@ -53,24 +51,14 @@ export default function HabitCardStack({
   const incompleteHabits = todayHabits.filter((h) => !completedTodayIds.includes(h.id));
   const completedHabits = todayHabits.filter((h) => completedTodayIds.includes(h.id));
 
-  // Reset index if it gets out of bounds
-  useEffect(() => {
-    if (currentIndex >= incompleteHabits.length && incompleteHabits.length > 0) {
-      setCurrentIndex(0);
-    }
-  }, [incompleteHabits.length, currentIndex]);
+  const activeIndex = incompleteHabits.length === 0 ? 0 : Math.min(currentIndex, incompleteHabits.length - 1);
+  const activeHabit = incompleteHabits[activeIndex];
 
-  const activeHabit = incompleteHabits[currentIndex];
-
-  // Pre-fill numerical goal when active habit changes
-  useEffect(() => {
-    if (activeHabit?.isNumerical) {
-      setNumValue(String(activeHabit.numericalGoal));
-    } else {
-      setNumValue('');
-    }
-    setShowLogInput(false);
-  }, [activeHabit]);
+  const startNumericalLog = () => {
+    if (!activeHabit) return;
+    setNumValue(activeHabit.isNumerical ? String(activeHabit.numericalGoal) : '');
+    setShowLogInput(true);
+  };
 
   // Drag Gesture Handlers
   const handleDragStart = (clientX: number, clientY: number) => {
@@ -105,7 +93,7 @@ export default function HabitCardStack({
 
     if (activeHabit.isNumerical && !showLogInput) {
       setDragOffset({ x: 0, y: 0 });
-      setShowLogInput(true);
+      startNumericalLog();
     } else {
       setDragOffset({ x: 400, y: 0 });
       setTimeout(() => {
@@ -163,7 +151,7 @@ export default function HabitCardStack({
       {/* 1. Progress Indicator */}
       <div className="glass-card" style={progressCardStyle}>
         <div style={progressInfoStyle}>
-          <h3 style={{ fontSize: '18px', fontWeight: 800 }}>Today's Loop</h3>
+          <h3 style={{ fontSize: '18px', fontWeight: 800 }}>Today&apos;s Loop</h3>
           <p style={{ fontSize: '14px', color: 'var(--text-muted)', fontWeight: 600 }}>
             {totalCount === 0 
               ? 'No habits scheduled for today' 
@@ -222,7 +210,7 @@ export default function HabitCardStack({
               >
                 <div style={stackedCardInnerStyle}>
                   <span style={{ fontWeight: 700 }}>
-                    {incompleteHabits[(currentIndex + 1) % incompleteHabits.length].title}
+                    {incompleteHabits[(activeIndex + 1) % incompleteHabits.length].title}
                   </span>
                 </div>
               </div>
@@ -234,7 +222,7 @@ export default function HabitCardStack({
               className="glass-card"
               style={{
                 ...stackedCardStyle,
-                transform: `translate(${dragOffset.x}px, ${dragOffset.y}px) rotate(${dragOffset.x * 0.04}deg)`,
+              transform: `translate(${dragOffset.x}px, ${dragOffset.y}px) rotate(${dragOffset.x * 0.04}deg)`,
                 zIndex: 10,
                 cursor: showLogInput ? 'default' : (isDragging ? 'grabbing' : 'grab'),
                 transition: isDragging ? 'none' : 'transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.15)',
@@ -265,7 +253,7 @@ export default function HabitCardStack({
               <div style={cardHeaderStyle}>
                 <div style={cardHeaderRowStyle}>
                   <span style={{ ...colorDotStyle, backgroundColor: activeColor }} />
-                  <span style={cardCategoryTextStyle}>Today's Loop Task</span>
+                  <span style={cardCategoryTextStyle}>Today&apos;s Loop Task</span>
                 </div>
                 <h4 style={cardTitleTextStyle}>{activeHabit.title}</h4>
               </div>
@@ -335,7 +323,7 @@ export default function HabitCardStack({
               <ChevronLeft size={16} />
             </button>
             <span style={cardCounterTextStyle}>
-              Card {currentIndex + 1} of {incompleteHabits.length}
+              Card {activeIndex + 1} of {incompleteHabits.length}
             </span>
             <button 
               onClick={handleNextCard} 

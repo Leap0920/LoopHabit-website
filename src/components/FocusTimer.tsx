@@ -1,8 +1,12 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Play, Pause, RotateCcw, Check, Timer as TimerIcon } from 'lucide-react';
-import { Habit, FocusSession } from '../utils/db';
+import { Habit } from '../utils/db';
+
+type AudioWindow = Window & typeof globalThis & {
+  webkitAudioContext?: typeof AudioContext;
+};
 
 interface FocusTimerProps {
   habits: Habit[];
@@ -32,19 +36,41 @@ export default function FocusTimer({
   // Find selected habit
   const selectedHabit = habits.find((h) => h.id === selectedHabitId) || habits[0] || null;
 
-  // Initialize selected habit id
-  useEffect(() => {
-    if (habits.length > 0 && selectedHabitId === null) {
-      setSelectedHabitId(habits[0].id);
-    }
-  }, [habits, selectedHabitId]);
+  const playPleasantChime = useCallback(() => {
+    try {
+      const AudioCtx = window.AudioContext || (window as AudioWindow).webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
 
-  // Set Timer Countdown when minutes selector changes
-  useEffect(() => {
-    if (mode === 'TIMER' && !isRunning) {
-      setSecondsLeft(initialMinutes * 60);
+      const playNode = (freq: number, timeOffset: number, duration: number) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.frequency.setValueAtTime(freq, ctx.currentTime + timeOffset);
+        gain.gain.setValueAtTime(0.15, ctx.currentTime + timeOffset);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + timeOffset + duration);
+
+        osc.start(ctx.currentTime + timeOffset);
+        osc.stop(ctx.currentTime + timeOffset + duration);
+      };
+
+      playNode(523.25, 0, 0.15);
+      playNode(659.25, 0.15, 0.15);
+      playNode(783.99, 0.30, 0.35);
+    } catch (e) {
+      console.warn('Audio synthesis failed', e);
     }
-  }, [initialMinutes, mode, isRunning]);
+  }, []);
+
+  const handleTimerComplete = useCallback(() => {
+    setIsRunning(false);
+    playPleasantChime();
+    setLoggedSeconds(initialMinutes * 60);
+    setShowSuccessDialog(true);
+    setSecondsLeft(initialMinutes * 60);
+  }, [initialMinutes, playPleasantChime]);
 
   // Unified ticking effect
   useEffect(() => {
@@ -69,44 +95,7 @@ export default function FocusTimer({
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isRunning, mode]);
-
-  // Web Audio Synth Pleasant Chime
-  const playPleasantChime = () => {
-    try {
-      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
-      if (!AudioCtx) return;
-      const ctx = new AudioCtx();
-      
-      const playNode = (freq: number, timeOffset: number, duration: number) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        
-        osc.frequency.setValueAtTime(freq, ctx.currentTime + timeOffset);
-        gain.gain.setValueAtTime(0.15, ctx.currentTime + timeOffset);
-        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + timeOffset + duration);
-        
-        osc.start(ctx.currentTime + timeOffset);
-        osc.stop(ctx.currentTime + timeOffset + duration);
-      };
-
-      playNode(523.25, 0, 0.15);     // C5
-      playNode(659.25, 0.15, 0.15);  // E5
-      playNode(783.99, 0.30, 0.35);  // G5
-    } catch (e) {
-      console.warn('Audio synthesis failed', e);
-    }
-  };
-
-  const handleTimerComplete = () => {
-    setIsRunning(false);
-    playPleasantChime();
-    setLoggedSeconds(initialMinutes * 60);
-    setShowSuccessDialog(true);
-    setSecondsLeft(initialMinutes * 60);
-  };
+  }, [isRunning, mode, handleTimerComplete]);
 
   const handlePlayPause = () => {
     setIsRunning((prev) => !prev);
@@ -140,10 +129,10 @@ export default function FocusTimer({
   };
 
   const handleLogOverlaySubmit = (shouldLogHabit: boolean) => {
-    onLogFocusSession(selectedHabitId, loggedSeconds, `Focus timer logged`);
+    onLogFocusSession(selectedHabit?.id ?? null, loggedSeconds, `Focus timer logged`);
     
-    if (shouldLogHabit && selectedHabitId) {
-      onCompleteHabit(selectedHabitId, 1, 'Logged after completing focus session');
+    if (shouldLogHabit && selectedHabit) {
+      onCompleteHabit(selectedHabit.id, 1, 'Logged after completing focus session');
     }
     
     setShowSuccessDialog(false);
@@ -184,7 +173,8 @@ export default function FocusTimer({
       </div>
 
       {/* Circle Clock */}
-      <div style={timerWrapStyle}>
+      <div style={{ ...timerWrapStyle, '--focus-color': themeColor } as React.CSSProperties & Record<'--focus-color', string>}>
+        <div style={glowStyle} className={isRunning ? 'focus-glow is-running' : 'focus-glow'} />
         <div style={circleOutlineStyle} className={isRunning ? "pulse-timer" : ""}>
           <svg width="220" height="220" viewBox="0 0 220 220" style={svgCircleStyle}>
             <circle cx="110" cy="110" r="100" fill="none" stroke="var(--border-color)" strokeWidth="6" />
@@ -277,7 +267,12 @@ export default function FocusTimer({
             {[1, 15, 25, 45, 60].map((mins) => (
               <button
                 key={mins}
-                onClick={() => { if (!isRunning) setInitialMinutes(mins); }}
+                onClick={() => {
+                  if (!isRunning) {
+                    setInitialMinutes(mins);
+                    setSecondsLeft(mins * 60);
+                  }
+                }}
                 disabled={isRunning}
                 style={{
                   ...durationPillStyle,
@@ -303,7 +298,7 @@ export default function FocusTimer({
         ) : (
           <div style={dropdownWrapperStyle}>
             <select
-              value={selectedHabitId || ''}
+              value={selectedHabit?.id || ''}
               onChange={(e) => setSelectedHabitId(Number(e.target.value))}
               disabled={isRunning}
               className="form-input"
@@ -384,6 +379,17 @@ const timerWrapStyle: React.CSSProperties = {
   display: 'flex',
   justifyContent: 'center',
   margin: '20px 0',
+  position: 'relative',
+};
+
+const glowStyle: React.CSSProperties = {
+  position: 'absolute',
+  width: '250px',
+  height: '250px',
+  borderRadius: '50%',
+  background: 'radial-gradient(circle, color-mix(in srgb, var(--focus-color) 45%, transparent), color-mix(in srgb, var(--focus-color) 18%, transparent) 45%, transparent 72%)',
+  opacity: 0.5,
+  filter: 'blur(2px)',
 };
 
 const circleOutlineStyle: React.CSSProperties = {

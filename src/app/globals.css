@@ -110,6 +110,16 @@ a {
   50% { transform: scale(1.02); box-shadow: 0 0 20px 4px rgba(242, 92, 120, 0.15); }
 }
 
+@keyframes focus-glow-idle {
+  0%, 100% { transform: scale(1); opacity: 0.26; }
+  50% { transform: scale(1.04); opacity: 0.38; }
+}
+
+@keyframes focus-glow-running {
+  0%, 100% { transform: scale(1.02); opacity: 0.38; }
+  50% { transform: scale(1.18); opacity: 0.68; }
+}
+
 @keyframes fade-in-up {
   from {
     opacity: 0;
@@ -127,6 +137,15 @@ a {
 
 .pulse-timer {
   animation: pulse-soft 3s infinite ease-in-out;
+}
+
+.focus-glow {
+  animation: focus-glow-idle 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.focus-glow.is-running {
+  animation: focus-glow-running 1.8s ease-in-out infinite;
 }
 
 .fade-in-up {
@@ -571,4 +590,3 @@ input:checked + .slider:before {
     background: rgba(255, 255, 255, 0.2) !important;
   }
 }
-

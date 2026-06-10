@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Layers, Timer, BarChart3, Trophy, Hash, Cloud } from 'lucide-react';
+import { Layers, Timer, BarChart3, Trophy, Hash, Cloud, ListTodo } from 'lucide-react';
 
 export default function Features() {
   const featuresList = [
@@ -11,9 +11,14 @@ export default function Features() {
       desc: 'No more cluttered checklists. Focus on one habit at a time using our swipeable 3D card stack. Swipe right to complete, left to skip.'
     },
     {
+      icon: <ListTodo size={26} style={{ color: 'var(--success)' }} />,
+      title: 'Independent Todo List',
+      desc: 'Keep one-off tasks in a dedicated Todo tab, separate from repeatable habits and still covered by local backup.'
+    },
+    {
       icon: <Timer size={26} style={{ color: 'var(--tertiary)' }} />,
       title: 'Integrated Focus Timer',
-      desc: 'Dedicate deep work blocks to your habits. Features both countdown Pomodoro timers and active stopwatches tied directly to your custom habits.'
+      desc: 'Dedicate deep work blocks to your habits with countdowns, stopwatches, manual minute edits, and a soft habit-color glow while running.'
     },
     {
       icon: <BarChart3 size={26} style={{ color: 'var(--secondary)' }} />,
