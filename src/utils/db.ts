@@ -28,6 +28,17 @@ export interface FocusSession {
   timestamp: number;
 }
 
+export interface TodoItem {
+  id: number;
+  userId: number;
+  title: string;
+  notes: string | null;
+  isCompleted: boolean;
+  createdAt: number;
+  completedAt: number | null;
+  sortOrder: number;
+}
+
 export interface FocusState {
   mode: 'TIMER' | 'STOPWATCH';
   isRunning: boolean;
@@ -47,6 +58,7 @@ const STORAGE_KEYS = {
   HABITS: 'loophabit_habits',
   COMPLETIONS: 'loophabit_completions',
   FOCUS_SESSIONS: 'loophabit_focus_sessions',
+  TODOS: 'loophabit_todos',
   PREFERENCES: 'loophabit_preferences',
   FOCUS_STATE: 'loophabit_focus_state'
 };
@@ -234,6 +246,28 @@ export function seedDatabase() {
   localStorage.setItem(STORAGE_KEYS.HABITS, JSON.stringify(mockHabits));
   localStorage.setItem(STORAGE_KEYS.COMPLETIONS, JSON.stringify(mockCompletions));
   localStorage.setItem(STORAGE_KEYS.FOCUS_SESSIONS, JSON.stringify(mockFocusSessions));
+  localStorage.setItem(STORAGE_KEYS.TODOS, JSON.stringify([
+    {
+      id: 1,
+      userId: 1,
+      title: 'Review weekly habit goals',
+      notes: 'One-off task kept separate from daily habits.',
+      isCompleted: false,
+      createdAt: Date.now() - 60 * 60 * 1000,
+      completedAt: null,
+      sortOrder: 0
+    },
+    {
+      id: 2,
+      userId: 1,
+      title: 'Export a fresh backup',
+      notes: 'Try the v1.3 backup flow.',
+      isCompleted: true,
+      createdAt: Date.now() - 2 * 60 * 60 * 1000,
+      completedAt: Date.now() - 30 * 60 * 1000,
+      sortOrder: 1
+    }
+  ]));
 
   // Initialize focus state
   const defaultFocusState: FocusState = {
@@ -289,6 +323,17 @@ export function saveFocusSessions(sessions: FocusSession[]) {
   localStorage.setItem(STORAGE_KEYS.FOCUS_SESSIONS, JSON.stringify(sessions));
 }
 
+export function getTodos(): TodoItem[] {
+  if (!isClient) return [];
+  const todos = localStorage.getItem(STORAGE_KEYS.TODOS);
+  return todos ? JSON.parse(todos) : [];
+}
+
+export function saveTodos(todos: TodoItem[]) {
+  if (!isClient) return;
+  localStorage.setItem(STORAGE_KEYS.TODOS, JSON.stringify(todos));
+}
+
 export function getPreferences(): UserPreferences {
   if (!isClient) return { darkModeEnabled: true, username: 'Habit Builder' };
   const prefs = localStorage.getItem(STORAGE_KEYS.PREFERENCES);
@@ -335,6 +380,7 @@ export function resetDatabase() {
   localStorage.removeItem(STORAGE_KEYS.HABITS);
   localStorage.removeItem(STORAGE_KEYS.COMPLETIONS);
   localStorage.removeItem(STORAGE_KEYS.FOCUS_SESSIONS);
+  localStorage.removeItem(STORAGE_KEYS.TODOS);
   localStorage.removeItem(STORAGE_KEYS.FOCUS_STATE);
   localStorage.removeItem(STORAGE_KEYS.PREFERENCES);
   seedDatabase();

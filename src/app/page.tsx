@@ -8,24 +8,28 @@ import Changelog from '../components/Changelog';
 import HabitCardStack from '../components/HabitCardStack';
 import FocusTimer from '../components/FocusTimer';
 import InsightsDashboard from '../components/InsightsDashboard';
+import TodoList from '../components/TodoList';
 import AddHabitModal from '../components/AddHabitModal';
 import SettingsModal from '../components/SettingsModal';
 import ScrollReveal from '../components/ScrollReveal';
-import { Layers, Timer, BarChart3, Settings, Plus, Download } from 'lucide-react';
+import { Layers, Timer, BarChart3, Settings, Plus, Download, ListTodo } from 'lucide-react';
 
 import {
   Habit,
   HabitCompletion,
   FocusSession,
+  TodoItem,
   seedDatabase,
   getHabits,
   getCompletions,
   getFocusSessions,
+  getTodos,
   getPreferences,
   savePreferences,
   saveHabits,
   saveCompletions,
   saveFocusSessions,
+  saveTodos,
   formatDateString
 } from '../utils/db';
 
@@ -37,34 +41,38 @@ export default function Home() {
   const [habits, setHabits] = useState<Habit[]>([]);
   const [completions, setCompletions] = useState<HabitCompletion[]>([]);
   const [focusSessions, setFocusSessions] = useState<FocusSession[]>([]);
+  const [todos, setTodos] = useState<TodoItem[]>([]);
   
   // Sandbox State
-  const [sandboxTab, setSandboxTab] = useState<'TODAY' | 'FOCUS' | 'INSIGHTS'>('TODAY');
+  const [sandboxTab, setSandboxTab] = useState<'TODAY' | 'FOCUS' | 'TODO' | 'INSIGHTS'>('TODAY');
 
   // Modal States
   const [showAddModal, setShowAddModal] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
 
-  // Initialize DB and load data
-  useEffect(() => {
-    seedDatabase();
-    refreshData();
-    
-    const prefs = getPreferences();
-    setDarkMode(prefs.darkModeEnabled);
-    if (prefs.darkModeEnabled) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
-      document.documentElement.removeAttribute('data-theme');
-    }
-    setDataLoaded(true);
-  }, []);
-
   const refreshData = () => {
     setHabits(getHabits());
     setCompletions(getCompletions());
     setFocusSessions(getFocusSessions());
+    setTodos(getTodos());
   };
+
+  // Initialize DB and load data
+  useEffect(() => {
+    queueMicrotask(() => {
+      seedDatabase();
+      refreshData();
+
+      const prefs = getPreferences();
+      setDarkMode(prefs.darkModeEnabled);
+      if (prefs.darkModeEnabled) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+      setDataLoaded(true);
+    });
+  }, []);
 
   const handleToggleDarkMode = () => {
     const nextVal = !darkMode;
@@ -148,7 +156,7 @@ export default function Home() {
       value
     };
 
-    let nextCompletions = [...list];
+    const nextCompletions = [...list];
     if (existingIdx !== -1) {
       nextCompletions[existingIdx] = completion;
     } else {
@@ -184,6 +192,45 @@ export default function Home() {
     const nextSessions = [...list, newSession];
     saveFocusSessions(nextSessions);
     setFocusSessions(nextSessions);
+  };
+
+  const handleAddTodo = (title: string, notes: string | null) => {
+    const list = getTodos();
+    const newId = list.length > 0 ? Math.max(...list.map((todo) => todo.id)) + 1 : 1;
+    const nextTodos = [
+      {
+        id: newId,
+        userId: 1,
+        title,
+        notes,
+        isCompleted: false,
+        createdAt: Date.now(),
+        completedAt: null,
+        sortOrder: newId
+      },
+      ...list
+    ];
+    saveTodos(nextTodos);
+    setTodos(nextTodos);
+  };
+
+  const handleUpdateTodo = (todo: TodoItem, title: string, notes: string | null) => {
+    const nextTodos = getTodos().map((item) => item.id === todo.id ? { ...item, title, notes } : item);
+    saveTodos(nextTodos);
+    setTodos(nextTodos);
+  };
+
+  const handleToggleTodo = (todo: TodoItem) => {
+    const isCompleted = !todo.isCompleted;
+    const nextTodos = getTodos().map((item) => item.id === todo.id ? { ...item, isCompleted, completedAt: isCompleted ? Date.now() : null } : item);
+    saveTodos(nextTodos);
+    setTodos(nextTodos);
+  };
+
+  const handleDeleteTodo = (todo: TodoItem) => {
+    const nextTodos = getTodos().filter((item) => item.id !== todo.id);
+    saveTodos(nextTodos);
+    setTodos(nextTodos);
   };
 
   if (!dataLoaded) {
@@ -277,6 +324,19 @@ export default function Home() {
                 </span>
               </button>
               <button
+                onClick={() => setSandboxTab('TODO')}
+                style={{
+                  ...innerNavTabStyle,
+                  color: sandboxTab === 'TODO' ? 'var(--primary)' : 'var(--text-muted)',
+                  borderBottom: sandboxTab === 'TODO' ? '3px solid var(--primary)' : '3px solid transparent'
+                }}
+              >
+                <span style={tabLabelInnerStyle}>
+                  <ListTodo size={16} />
+                  <span>Todo List</span>
+                </span>
+              </button>
+              <button
                 onClick={() => setSandboxTab('INSIGHTS')}
                 style={{
                   ...innerNavTabStyle,
@@ -309,7 +369,17 @@ export default function Home() {
                   onCompleteHabit={handleCompleteHabit}
                 />
               )}
-              
+
+              {sandboxTab === 'TODO' && (
+                <TodoList
+                  todos={todos}
+                  onAddTodo={handleAddTodo}
+                  onUpdateTodo={handleUpdateTodo}
+                  onToggleTodo={handleToggleTodo}
+                  onDeleteTodo={handleDeleteTodo}
+                />
+              )}
+               
               {sandboxTab === 'INSIGHTS' && (
                 <InsightsDashboard 
                   habits={habits}
@@ -510,15 +580,6 @@ const downloadBannerCardStyle: React.CSSProperties = {
   flexDirection: 'column',
   gap: '16px',
   alignItems: 'center',
-};
-
-const bannerGlowStyle: React.CSSProperties = {
-  width: '300px',
-  height: '300px',
-  left: '50%',
-  top: '50%',
-  transform: 'translate(-50%, -50%)',
-  opacity: 0.1,
 };
 
 const bannerTitleStyle: React.CSSProperties = {
